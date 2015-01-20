@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  p Input your zip code and get a recommendation for lunch
+  form(ng-submit="findPlaces()")
+    input(type="zip", placeholder= "Zip", ng-model="zip" )
+    input(type="submit" id="submit" value="Submit")
+  hr
+  div(id="map-canvas" style="width: 320px; height: 480px;")
+  div(id="locations")
+    ul(class="example-animate-container")
+      li(ng-repeat="res in restaurants" class="animate-repeat")
+        {{res.name}}
+
