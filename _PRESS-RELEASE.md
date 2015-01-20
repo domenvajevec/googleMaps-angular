@@ -18,27 +18,34 @@ Once the project moves into development, the press release can be used as a touc
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
+  What's for Lunch
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
-
+  
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  This app will find restaurants close to you and give you a suggestion.
 
 ## Problem ##
   > Describe the problem your product solves.
-
+  Don't know where / what to eat. Have Wheel of Food decide for you.
 ## Solution ##
   > Describe how your product elegantly solves the problem.
+  Click in a button..spin the wheel and get a result;
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
+  Awesomestest Restaurant Sugegstion App
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
+  Click the "Spin the Wheel" button and get a sugegstion
 
 ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  "I didn't know what to have for lunch so I spinned the wheel and now I can live"
 
 ## Closing and Call to Action ##
   > Wrap it up and give pointers where the reader should go next.
+  Read more about us in Bon Appetit Magazine
