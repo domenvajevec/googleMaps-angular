@@ -3,14 +3,23 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  p Input your zip code and get a recommendation for lunch
-  form(ng-submit="findPlaces()")
-    input(type="zip", placeholder= "Zip", ng-model="zip" )
-    input(type="submit" id="submit" value="Submit")
+  p Drop in your address or zip and get a recommendation for lunch
+  div(class="inputs")
+    form(id="address" ng-submit="findPlaces()")
+      input(type="zip", placeholder= "Zip", ng-model="zip" )
+      input(type="submit" id="submit" value="Submit")
+    form(id="priceFilter")
+      |$
+      input(type="range" min="1" max="4" ng-model="priceSelection" )
+      |$$$$
+      |Price Level {{ priceSelection }}
+      //- input(type="submit" id="submit2" value="Submit")
   hr
   div(id="map-canvas" style="width: 320px; height: 480px;")
   div(id="locations")
-    ul(class="example-animate-container")
-      li(ng-repeat="res in restaurants" class="animate-repeat")
-        {{res.name}}
+    ul()
+      li(ng-animate="'animate'" ng-repeat="res in restaurants | orderBy: rating : reverse | filter: {price_level: priceSelection}" )
+        {{res.name}} {{res.vicinity}} 
+        br
+        |Rating: {{res.rating}} Price Level: {{res.price_level}}
 

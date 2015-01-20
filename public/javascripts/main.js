@@ -3,38 +3,50 @@ var app = angular.module('wfl', [])
 .controller('LocationController', ['$scope', 'FoodLocLink', 'GeoCode', function($scope, FoodLocLink, GeoCode){
   $scope.zip = 91335;
   $scope.restaurants = [];
+  $scope.priceSelection = 4;
 
   $scope.findPlaces = function(){
     GeoCode.codeAddress($scope.zip, function(result, status){
       console.log(result, "codeAddress");
-      FoodLocLink.initialize(result, function(res, status){
-        if (res){
-          // console.log(res, "results from cb");
-          $scope.restaurants = res;
-          console.log($scope.restaurants);
-        }
-          // FoodLocLink.getRestaurants(function(rest, status){
-          //   console.log("in rest", rest);
-          //   $scope.restaurants = rest;
-          // });
-          
-      });
+      if (result){
+        FoodLocLink.initialize(result, function(res, status){
+          if (res){
+            // console.log(res, "results from cb");
+            $scope.restaurants = res;
+            console.log($scope.restaurants);
+          } else {
+            console.log(status);
+          }
+            // FoodLocLink.getRestaurants(function(rest, status){
+            //   console.log("in rest", rest);
+            //   $scope.restaurants = rest;
+            // });
+            
+        });
+      } else {
+        console.log(status);
+      }
     });
   };
-  // $scope.$watch('restaurants', true);
-  $scope.$watch(function($scope){
-    return $scope.restaurants;
-    }, function(newValue, oldValue) {
-  console.log("change detected: " + newValue);
-  }, true);
-    // console.log("findPlaces called", FoodLocLink.restaurants);
+  $scope.filterRestaurants = function(){
+    $scope.restaurants = $scope.restaurants.filter(function(r){
+      return r.price_level <= $scope.priceSelection;
+    });
+  };
+  
+  $scope.$watch('restaurants',$scope.findPlaces(), true);
+  // $scope.$watch(function(){
+  //   return $scope.restaurants;
+  //   }, $scope.findPlaces());
+
+  // $scope.watch('price', function())
 }])
 
 
 .factory('FoodLocLink', function(){
   var map;
   var infowindow;
-  var restaurants = [];
+  var restaurants;
 
   function initialize(latLng, cb) {
 
@@ -47,32 +59,23 @@ var app = angular.module('wfl', [])
 
     var request = {
       location: newLoc,
-      radius: 500,
-      types: ['food']
+      radius: 1000,
+      types: ['food','restaurant']
     };
     infowindow = new google.maps.InfoWindow();
     var service = new google.maps.places.PlacesService(map);
 
     service.nearbySearch(request, function(results, status) {
+      restaurants = [];
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
           restaurants.push(results[i]);
           createMarker(results[i]);
         }
       }
-    cb(restaurants);
+    cb(restaurants, "error getting coordinates");
     });
   }
-
-  // function callback(results, status) {
-  //   if (status == google.maps.places.PlacesServiceStatus.OK) {
-  //     for (var i = 0; i < results.length; i++) {
-  //       restaurants.push(results[i]);
-  //       createMarker(results[i]);
-  //     }
-  //   }
-  //       // return cb(restaurants);
-  // }
 
   function createMarker(place) {
     var placeLoc = place.geometry.location;

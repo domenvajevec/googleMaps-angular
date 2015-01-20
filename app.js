@@ -1,9 +1,9 @@
 var express = require('express');
-var routes = require('routes');
+var routes = require('./routes/index');
 var path = require('path');
-var logger = require('logger');
-var bodyParser = require('bodyParser');
-var errorHandler = require('errorHandler');
+var logger = require('morgan');
+var bodyParser = require('body-parser');
+var errorHandler = require('errorhandler');
 
 var app = express();
 
@@ -14,7 +14,7 @@ app.use(logger('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.statix(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 
