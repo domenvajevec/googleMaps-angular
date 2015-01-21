@@ -1,27 +1,16 @@
 body {
-  padding: 50px;
+  padding: 30px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url('../images/crossword.png');
 }
 
 a {
   color: #00B7FF;
 }
-#map-canvas {
-  float:left;
-}
 
-.inputs{
-  height: 75px;
-}
-#priceFilter{
-  float: right;
-/*  margin-bottom: 20px;
-  padding-bottom: 20px;*/
-}
-#address{
-  float: left;
-/*  margin-bottom: 20px;
-  padding-bottom: 20px;*/
+h1 {
+  font-family: 'Lobster', cursive;
+  padding-bottom: 20px;
 }
 
 .animate-enter, 
@@ -55,4 +44,16 @@ a {
     transform: scaleY(1);
     height: 30px;
     opacity: 1;
+}
+.reveal-animation.ng-enter {
+  -webkit-animation: enter_sequence 1s linear; /* Safari/Chrome */
+  animation: enter_sequence 1s linear; /* IE10+ and Future Browsers */
+}
+@-webkit-keyframes enter_sequence {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+@keyframes enter_sequence {
+  from { opacity:0; }
+  to { opacity:1; }
 }

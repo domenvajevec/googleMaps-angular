@@ -1,25 +1,32 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  p Drop in your address or zip and get a recommendation for lunch
-  div(class="inputs")
-    form(id="address" ng-submit="findPlaces()")
-      input(type="zip", placeholder= "Zip", ng-model="zip" )
-      input(type="submit" id="submit" value="Submit")
-    form(id="priceFilter")
-      |$
-      input(type="range" min="1" max="4" ng-model="priceSelection" )
-      |$$$$
-      |Price Level {{ priceSelection }}
-      //- input(type="submit" id="submit2" value="Submit")
-  hr
-  div(id="map-canvas" style="width: 320px; height: 480px;")
-  div(id="locations")
-    ul()
-      li(ng-animate="'animate'" ng-repeat="res in restaurants | orderBy: rating : reverse | filter: {price_level: priceSelection}" )
-        {{res.name}} {{res.vicinity}} 
-        br
-        |Rating: {{res.rating}} Price Level: {{res.price_level}}
+  .container
+    h1= title        
+    .row
+      .col-md-6.col-sm-12
+        p.text-center Drop in your address or zip and get a recommendation for lunch
+        form#address( class="input-group form-inline" ng-submit="findPlaces()")
+          input(type="zip", placeholder= "Address or Zip", ng-model="zip" class="form-control")
+          span.input-group-btn
+            button(class="btn btn-info", type="submit").
+              Go!
+      .col-md-4.col-md-offset-2.col-sm-12
+        p.text-center Price Level
+        form(id="priceFilter" class="input-group")
+          span.input-group-addon $
+          input(type="range" min="1" max="4" ng-model="priceSelection" class="form-control")
+          span.input-group-addon $$$$
+    hr
+    .row
+      .col-md-4.col-sm-12
+        div(id="map-canvas" style="width: 320px; height: 480px;")
+      .col-md-8.col-sm-12
+        ul(class="list-group" ng-animate-children)
+          li(class="list-group-item" ng-repeat="res in restaurants | orderBy:rating| filter: filterByPrice | limitTo: 12" )
+            strong{{res.name}} &nbsp;&nbsp;&nbsp;
+            |{{res.vicinity}} 
+            br
+            span.badge Rating: {{res.rating}} 
+            |Price Level: {{res.price_level}}
 

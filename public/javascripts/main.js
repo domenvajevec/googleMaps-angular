@@ -1,47 +1,35 @@
 var app = angular.module('wfl', [])
 
 .controller('LocationController', ['$scope', 'FoodLocLink', 'GeoCode', function($scope, FoodLocLink, GeoCode){
-  $scope.zip = 91335;
-  $scope.restaurants = [];
+  $scope.zip = "944 Market Street #8, San Francisco, CA 94102";
+  // $scope.restaurants = [];
   $scope.priceSelection = 4;
 
   $scope.findPlaces = function(){
+    // if ($scope.restaurants !== []){
+    //   $scope.restaurants = [];
+    // }
+    // $scope.priceSelection = 2;
     GeoCode.codeAddress($scope.zip, function(result, status){
-      console.log(result, "codeAddress");
       if (result){
         FoodLocLink.initialize(result, function(res, status){
           if (res){
-            // console.log(res, "results from cb");
             $scope.restaurants = res;
-            console.log($scope.restaurants);
           } else {
             console.log(status);
           }
-            // FoodLocLink.getRestaurants(function(rest, status){
-            //   console.log("in rest", rest);
-            //   $scope.restaurants = rest;
-            // });
-            
         });
       } else {
         console.log(status);
       }
     });
   };
-  $scope.filterRestaurants = function(){
-    $scope.restaurants = $scope.restaurants.filter(function(r){
-      return r.price_level <= $scope.priceSelection;
-    });
+  $scope.filterByPrice = function(item){
+    return item.price_level <= $scope.priceSelection;
   };
-  
-  $scope.$watch('restaurants',$scope.findPlaces(), true);
-  // $scope.$watch(function(){
-  //   return $scope.restaurants;
-  //   }, $scope.findPlaces());
 
-  // $scope.watch('price', function())
+  $scope.$watch('restaurants',$scope.findPlaces(), false);
 }])
-
 
 .factory('FoodLocLink', function(){
   var map;
@@ -101,28 +89,13 @@ var app = angular.module('wfl', [])
 .factory('GeoCode', function(){
   var geocoder;
   var map;
-  // function initialize() {
-  //   geocoder = new google.maps.Geocoder();
-  //   var latlng = new google.maps.LatLng(-34.397, 150.644);
-  //   var mapOptions = {
-  //     zoom: 8,
-  //     center: latlng
-  //   };
-  //   map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-  // }
 
   function codeAddress(zip, cb) {
     var address = zip.toString();
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
-        //console.log(results[0].geometry.location);
         return cb(results[0].geometry.location, status);
-        // map.setCenter(results[0].geometry.location);
-        // var marker = new google.maps.Marker({
-        //     map: map,
-        //     position: results[0].geometry.location
-        // });
       } else {
         alert("Geocode was not successful for the following reason: " + status);
       }
@@ -132,44 +105,5 @@ var app = angular.module('wfl', [])
     codeAddress: codeAddress
   };
 });
-
-// app.directive('googleMap', function(){
-
-// });
-// .factory('MapFactory', function(){
-//   var geocoder;
-//   var map;
-
-//   function initialize() {
-//     geocoder = new google.maps.Geocoder();
-//     var latlng = new google.maps.LatLng(37.775, -122.419);
-//     var mapOptions = {
-//       zoom: 13,
-//       center: latlng
-//     };
-//     map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-//   }
-
-//   function codeAddress(zip) {
-
-//     var address = zip.toString();
-//     geocoder.geocode( { 'address': address}, function(results, status) {
-//       if (status == google.maps.GeocoderStatus.OK) {
-//         map.setCenter(results[0].geometry.location);
-//         var marker = new google.maps.Marker({
-//             map: map,
-//             position: results[0].geometry.location
-//         });
-//       } else {
-//         alert("Geocode was not successful for the following reason: " + status);
-//       }
-//     });
-//   }
-
-//   return {
-//     initialize: initialize,
-//     codeAddress: codeAddress
-//   };
-// })
 
   
