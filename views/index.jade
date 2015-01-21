@@ -9,10 +9,10 @@ block content
         form#address( class="input-group form-inline" ng-submit="findPlaces()")
           input(type="zip", placeholder= "Address or Zip", ng-model="zip" class="form-control")
           span.input-group-btn
-            button(class="btn btn-info", type="submit").
+            button(class="btn btn-info", type="submit" ng-click="refreshList()").
               Go!
       .col-md-4.col-md-offset-2.col-sm-12
-        p.text-center Price Level
+        p.text-center Select Price Level
         form(id="priceFilter" class="input-group")
           span.input-group-addon $
           input(type="range" min="1" max="4" ng-model="priceSelection" class="form-control")
@@ -20,7 +20,7 @@ block content
     hr
     .row
       .col-md-4.col-sm-12
-        div(id="map-canvas" style="width: 320px; height: 480px;")
+        div(id="map-canvas" style="width: 100%; height: 480px;")
       .col-md-8.col-sm-12
         ul(class="list-group" ng-animate-children)
           li(class="list-group-item" ng-repeat="res in restaurants | orderBy:rating| filter: filterByPrice | limitTo: 12" )

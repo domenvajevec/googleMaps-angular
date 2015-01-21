@@ -15,6 +15,7 @@ var app = angular.module('wfl', [])
         FoodLocLink.initialize(result, function(res, status){
           if (res){
             $scope.restaurants = res;
+            $scope.$digest();
           } else {
             console.log(status);
           }
@@ -24,11 +25,15 @@ var app = angular.module('wfl', [])
       }
     });
   };
+  $scope.refreshList = function(){
+    console.log("refreshList called");
+    $scope.restaurants = [];
+  };
   $scope.filterByPrice = function(item){
     return item.price_level <= $scope.priceSelection;
   };
 
-  $scope.$watch('restaurants',$scope.findPlaces(), false);
+  // $scope.$watch('restaurants',$scope.findPlaces(), false);
 }])
 
 .factory('FoodLocLink', function(){
