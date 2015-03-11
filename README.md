@@ -1,2 +1,2 @@
-#solo
-This is a project I completed as a student at [Hack Reactor](http://hackreactor.com). This project was worked on with a pair.
+
+What's for Lunch? - A food recommendation app usion AngularJS and Google Maps API
